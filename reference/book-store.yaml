@@ -1,0 +1,46 @@
+edapi: 1.0.0
+info:
+  id: BookStore
+  title: Book Store
+  version: 0.0.1-SNAPSHOT
+  description: |
+    This documents list all Events and Topics for a Book Store System
+
+    This system will handle the following events:
+        * Book Created
+        * Order Created
+        * Payment Registered
+        *   
+
+
+topics:
+  customer:
+    description: All created customers will be stored in this topic
+  book:
+    description: All created books will be stored in this topic
+  order:
+    description: All created orders will be stored in this topic
+
+## Should list all external producers. This producers can send messages to a defined topic, or it will define a topic.
+producers:
+  customer:
+    actor: CustomerService # Service name that generates data
+    description: All customers are created by an external service
+  book:
+    actor: BookStore
+    description: All users are created on this service
+  order:
+    actor: BookStore
+    description: All orders are created on this service
+
+transformers:
+  process-payments:
+    actor: PaymentService 
+    listen: order
+    generate: payment
+    description: Listen the created Orders to process the Payments
+
+consumers: {}
+
+
+schemas: {}
